@@ -436,7 +436,7 @@ void LogPublisher::addForce(const std::string & entry, const std::string & surfa
   gui.addElement(extraDataCategory,
                  mc_rtc::gui::Force(
                      entry, [this, entry]() { return log.get<sva::ForceVecd>(entry, cur_i, sva::ForceVecd::Zero()); },
-                     [this, surface]() { return robot->robot().surfacePose(surface); }));
+                     [this, surface]() { return robot->robot().frame(surface).position(); }));
   addRemoveExtraDataButton("forces", entry);
 }
 

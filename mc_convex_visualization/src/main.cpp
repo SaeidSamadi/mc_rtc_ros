@@ -193,9 +193,9 @@ visualization_msgs::MarkerArray convexMarkers(const std::string & tf_prefix,
     {
       continue;
     }
-    const auto & frame = col.second.first;
-    sch::S_Object * object = col.second.second.get();
-    const auto & colTrans = robot.collisionTransform(col.first);
+    const auto & frame = col.second->frame().name();
+    sch::S_Object * object = col.second->convex().get();
+    const auto & colTrans = col.second->X_f_c();
     if(sch::S_Polyhedron * poly = dynamic_cast<sch::S_Polyhedron *>(object))
     {
       markers.markers.push_back(fromPolyhedron(tf_prefix + frame, col.first, ++id, *poly, colTrans));
@@ -281,7 +281,8 @@ int main(int argc, char ** argv)
     {
       return;
     }
-    robots = mc_rbdyn::loadRobot(*robotModule);
+    robots.reset(new mc_rbdyn::Robots());
+    robots->load(*robotModule, robotModule->name);
     markers = convexMarkers(tf_prefix, robots->robot(), filtered_convexes);
     if(publish)
     {

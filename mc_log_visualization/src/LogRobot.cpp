@@ -9,7 +9,7 @@
 #include <fstream>
 
 LogRobot::LogRobot(const LogRobot::Configuration & config)
-: config_(config), publisher_(config.id + "/", 1 / config.dt, config.dt), robots_(mc_rbdyn::loadRobot(*config.rm))
+: config_(config), publisher_(config.id + "/", 1 / config.dt, config.dt)
 {
 }
 

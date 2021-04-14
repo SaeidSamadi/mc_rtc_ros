@@ -236,7 +236,8 @@ int main(int argc, char ** argv)
     {
       return;
     }
-    robots = mc_rbdyn::loadRobot(*robotModule);
+    robots.reset(new mc_rbdyn::Robots());
+    robots->load(*robotModule, robotModule->name);
     markers = surfaceMarkers(tf_prefix, robots->robot());
     if(publish)
     {

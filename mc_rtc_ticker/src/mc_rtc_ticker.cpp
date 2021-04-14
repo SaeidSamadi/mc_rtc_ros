@@ -110,7 +110,7 @@ int main()
 
   bool stepByStep = getParam(nh, "mc_rtc_ticker/stepByStep", false);
   size_t nextStep = 0;
-  auto gui = controller.controller().gui();
+  auto & gui = controller.controller().gui();
   auto toogleStepByStep = [&]() {
     if(stepByStep)
     {
@@ -122,20 +122,20 @@ int main()
       stepByStep = true;
     }
   };
-  if(gui)
   {
-    gui->addElement({"mc_rtc_ticker"},
-                    mc_rtc::gui::Checkbox("Step by step", [&]() { return stepByStep; }, [&]() { toogleStepByStep(); }));
+    gui.addElement({"mc_rtc_ticker"},
+                   mc_rtc::gui::Checkbox("Step by step", [&]() { return stepByStep; }, [&]() { toogleStepByStep(); }));
+    auto dt = controller.timestep();
     auto buttonText = [&](size_t n) {
       size_t n_ms = static_cast<size_t>(std::ceil(static_cast<double>(n) * 1000.0 * dt));
       return "+" + std::to_string(n_ms) + "ms";
     };
-    gui->addElement({"mc_rtc_ticker"}, mc_rtc::gui::ElementsStacking::Horizontal,
-                    mc_rtc::gui::Button(buttonText(1), [&]() { nextStep = 1; }),
-                    mc_rtc::gui::Button(buttonText(5), [&]() { nextStep = 5; }),
-                    mc_rtc::gui::Button(buttonText(10), [&]() { nextStep = 10; }),
-                    mc_rtc::gui::Button(buttonText(50), [&]() { nextStep = 20; }),
-                    mc_rtc::gui::Button(buttonText(100), [&]() { nextStep = 100; }));
+    gui.addElement({"mc_rtc_ticker"}, mc_rtc::gui::ElementsStacking::Horizontal,
+                   mc_rtc::gui::Button(buttonText(1), [&]() { nextStep = 1; }),
+                   mc_rtc::gui::Button(buttonText(5), [&]() { nextStep = 5; }),
+                   mc_rtc::gui::Button(buttonText(10), [&]() { nextStep = 10; }),
+                   mc_rtc::gui::Button(buttonText(50), [&]() { nextStep = 20; }),
+                   mc_rtc::gui::Button(buttonText(100), [&]() { nextStep = 100; }));
   }
 
   const bool bench = getParam(nh, "mc_rtc_ticker/bench", false);
