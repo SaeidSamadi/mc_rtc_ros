@@ -74,10 +74,10 @@ void VisualWidget::update(const rbd::parsers::Visual & visual, const sva::PTrans
     using Geometry = rbd::parsers::Geometry;
     using Type = Geometry::Type;
     auto & type = visual.geometry.type;
-    auto & geom_data = visual.geometry.data;
+    auto & data = visual.geometry.data;
     if(type == Type::BOX)
     {
-      auto & b = boost::get<Geometry::Box>(geom_data);
+      auto & b = boost::get<Geometry::Box>(data);
       marker_.type = visualization_msgs::Marker::CUBE;
       marker_.scale.x = b.size.x();
       marker_.scale.y = b.size.y();
@@ -85,7 +85,7 @@ void VisualWidget::update(const rbd::parsers::Visual & visual, const sva::PTrans
     }
     else if(type == Type::CYLINDER)
     {
-      auto & c = boost::get<Geometry::Cylinder>(geom_data);
+      auto & c = boost::get<Geometry::Cylinder>(data);
       marker_.type = visualization_msgs::Marker::CYLINDER;
       marker_.scale.x = 2 * c.radius;
       marker_.scale.y = 2 * c.radius;
@@ -93,7 +93,7 @@ void VisualWidget::update(const rbd::parsers::Visual & visual, const sva::PTrans
     }
     else if(type == Type::SPHERE)
     {
-      auto & s = boost::get<Geometry::Sphere>(geom_data);
+      auto & s = boost::get<Geometry::Sphere>(data);
       marker_.type = visualization_msgs::Marker::SPHERE;
       marker_.scale.x = 2 * s.radius;
       marker_.scale.y = 2 * s.radius;
@@ -101,7 +101,7 @@ void VisualWidget::update(const rbd::parsers::Visual & visual, const sva::PTrans
     }
     else if(type == Type::MESH)
     {
-      auto & m = boost::get<Geometry::Mesh>(geom_data);
+      auto & m = boost::get<Geometry::Mesh>(data);
       marker_.type = visualization_msgs::Marker::MESH_RESOURCE;
       marker_.scale.x = m.scale;
       marker_.scale.y = m.scale;
